@@ -15,6 +15,8 @@ class Ship:
         self.image = pygame.image.load('images/spaceship.png')
         self.image_rect = self.image.get_rect()
         self.image_rect.midbottom = self.screen_rect.midbottom
+        self.settings = ai_game.settings
+        self.x_pos = float(self.image_rect.x)
 
     def draw_ship(self):
         """"Draw the ship at its current location."""
@@ -22,7 +24,8 @@ class Ship:
 
     def update(self):
         """"Update the ship's position based on the movement flag."""
-        if self.moving_right:
-            self.image_rect.x += 1
-        elif self.moving_left:
-            self.image_rect.x -= 1
+        if self.moving_right and self.image_rect.right<self.screen_rect.right:
+            self.x_pos += self.settings.ship_speed
+        elif self.moving_left and self.image_rect.left>self.screen_rect.left:
+            self.x_pos -= self.settings.ship_speed
+        self.image_rect.x = self.x_pos
